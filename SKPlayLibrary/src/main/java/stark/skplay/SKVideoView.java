@@ -58,6 +58,7 @@ public class SKVideoView extends RelativeLayout {
     }
 
     public void start() {
+        controlView.showLoading(true);
         textureVideoView.start();
         setKeepScreenOn(true);
         if (controlView != null) {
@@ -102,16 +103,18 @@ public class SKVideoView extends RelativeLayout {
 
         @Override
         public void onCompletion(MediaPlayer mp) {
-
+            controlView.updatePlaybackState(false);
         }
 
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            controlView.updatePlaybackState(false);
             return false;
         }
 
         @Override
         public void onPrepared(MediaPlayer mp) {
+            controlView.showLoading(false);
             controlView.setDuration(mp.getDuration());
         }
 

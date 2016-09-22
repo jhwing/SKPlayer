@@ -17,7 +17,7 @@ import stark.skplay.SKVideoView;
 
 public class SKVideoViewActivity extends AppCompatActivity {
 
-    Uri uri = Samples.uri;
+    Uri uri = Samples.maxUri;
 
     SKVideoView videoView;
 

@@ -8,6 +8,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
 
     VideoViewApi videoView;
 
+    protected ProgressBar progressBar;
     protected VideoSpeedView videoSpeedView;
     protected View shadeView;
     protected View playPauseImg;
@@ -39,6 +41,8 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
     private int seekToTime;
 
     boolean userInteracting = false;
+
+    boolean isStoped = false;
 
     public SKPlaybackControlView(Context context) {
         super(context);
@@ -57,6 +61,7 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
 
     protected void setup(Context context) {
         View.inflate(context, R.layout.sk_playback_control_view, this);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         videoSpeedView = (VideoSpeedView) findViewById(R.id.videoSpeedView);
         shadeView = findViewById(R.id.shadeView);
         playPauseImg = findViewById(R.id.playPauseImg);
@@ -98,6 +103,14 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
         playPause.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isStoped) {
+                    isStoped = false;
+                    videoView.prepareAsync();
+                    videoView.start();
+                    showLoading(true);
+                    updatePlaybackState(true);
+                    return;
+                }
                 if (videoView.isPlaying() && videoView.canPause()) {
                     videoView.pause();
                     updatePlaybackState(false);
@@ -113,6 +126,7 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
             public void onClick(View v) {
                 videoView.stopPlayback();
                 updatePlaybackState(false);
+                isStoped = true;
             }
         });
 
@@ -166,6 +180,15 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
         if (duration != seekBar.getMax()) {
             endTime.setText(TimeFormatUtil.formatMs(duration));
             seekBar.setMax((int) duration);
+        }
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            progressBar.setVisibility(VISIBLE);
+        } else {
+            progressBar.setVisibility(GONE);
         }
     }
 

@@ -17,6 +17,8 @@ public interface VideoViewApi extends MediaController.MediaPlayerControl {
 
     void setVideoURI(Uri uri);
 
+    void prepareAsync();
+
     void setSKListenerMux(SKListenerMux listenerMux);
 
     /**

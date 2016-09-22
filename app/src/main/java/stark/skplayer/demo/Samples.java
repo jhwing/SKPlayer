@@ -12,6 +12,7 @@ import java.util.List;
 public class Samples {
 
     public final static Uri uri = Uri.parse("http://vf1.mtime.cn/Video/2016/07/24/mp4/160724091914077918.mp4");
+    public final static Uri maxUri = Uri.parse("http://vf2.mtime.cn/Video/2015/04/29/mp4/150429075009585719.mp4");
 
     public static class Sample {
         public String thumbUrl;

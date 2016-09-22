@@ -14,4 +14,6 @@ public interface SKPlaybackControl {
 
     void setDuration(@IntRange(from = 0) long duration);
 
+    void showLoading(boolean show);
+
 }

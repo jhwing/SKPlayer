@@ -49,6 +49,8 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
 
     protected MediaPlayer mediaPlayer;
 
+    protected Uri mUri;
+
     protected boolean playRequested = false;
     protected int requestedSeek;
     protected int currentBufferPercent;
@@ -252,6 +254,20 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
     }
 
     @Override
+    public void prepareAsync() {
+        try {
+            mediaPlayer.prepareAsync();
+
+            currentState = State.PREPARING;
+        } catch (IllegalArgumentException ex) {
+            Log.w(TAG, "Unable to open content: " + mUri, ex);
+            currentState = State.ERROR;
+
+            internalListeners.onError(mediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
+        }
+    }
+
+    @Override
     public void setSKListenerMux(SKListenerMux listenerMux) {
         setOnBufferingUpdateListener(listenerMux);
         setOnSeekCompleteListener(listenerMux);
@@ -272,6 +288,7 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
      *                to disallow or allow cross domain redirection.
      */
     public void setVideoURI(Uri uri, @Nullable Map<String, String> headers) {
+        mUri = uri;
         this.headers = headers;
         requestedSeek = 0;
         playRequested = false;
