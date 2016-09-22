@@ -90,6 +90,15 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
         playPauseImg.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isStoped) {
+                    isStoped = false;
+                    videoView.prepareAsync();
+                    videoView.start();
+                    showLoading(true);
+                    updatePlaybackState(true);
+                    return;
+                }
+
                 if (videoView.isPlaying() && videoView.canPause()) {
                     videoView.pause();
                     updatePlaybackState(false);
