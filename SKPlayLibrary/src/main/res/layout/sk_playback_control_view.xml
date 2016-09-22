@@ -82,6 +82,13 @@
                 android:layout_height="wrap_content"
                 android:text="stop" />
 
+            <Button
+                android:id="@+id/fullScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fullScreen" />
+
+
         </LinearLayout>
     </LinearLayout>
 

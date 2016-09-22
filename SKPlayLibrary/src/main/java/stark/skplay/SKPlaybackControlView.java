@@ -22,6 +22,12 @@ import stark.skplay.utils.TimeFormatUtil;
 
 public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackControl {
 
+    public interface OnFullScreenListener {
+        void onFullScreen();
+    }
+
+    OnFullScreenListener onFullScreenListener;
+
     VideoViewApi videoView;
 
     protected ProgressBar progressBar;
@@ -32,6 +38,7 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
     protected Button next;
     protected Button playPause;
     protected Button stop;
+    protected Button fullScreen;
     protected SeekBar seekBar;
     protected TextView currentTime;
     protected TextView endTime;
@@ -69,11 +76,21 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
         next = (Button) findViewById(R.id.next);
         playPause = (Button) findViewById(R.id.playPause);
         stop = (Button) findViewById(R.id.stop);
+        fullScreen = (Button) findViewById(R.id.fullScreen);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         currentTime = (TextView) findViewById(R.id.currentTime);
         endTime = (TextView) findViewById(R.id.remainingTime);
 
         shadeView.setOnTouchListener(new TouchListener(getContext()));
+
+        fullScreen.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onFullScreenListener != null) {
+                    onFullScreenListener.onFullScreen();
+                }
+            }
+        });
 
         previous.setOnClickListener(new OnClickListener() {
             @Override
@@ -169,6 +186,10 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
                 updateProgress();
             }
         });
+    }
+
+    public void setOnFullScreenListener(OnFullScreenListener onFullScreenListener) {
+        this.onFullScreenListener = onFullScreenListener;
     }
 
     private void seekEnd(int seekTime) {

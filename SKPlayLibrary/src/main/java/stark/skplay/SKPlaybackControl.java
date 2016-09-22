@@ -16,4 +16,6 @@ public interface SKPlaybackControl {
 
     void showLoading(boolean show);
 
+    void setOnFullScreenListener(SKPlaybackControlView.OnFullScreenListener onFullScreenListener);
+
 }

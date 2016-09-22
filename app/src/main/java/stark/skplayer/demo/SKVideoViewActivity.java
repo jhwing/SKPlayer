@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import stark.skplay.SKPlaybackControlView;
 import stark.skplay.SKVideoView;
 
 /**
@@ -26,7 +27,18 @@ public class SKVideoViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sk_video_view);
         videoView = (SKVideoView) findViewById(R.id.skVideoView);
+
         videoView.setVideoURI(uri);
+        videoView.setOnFullScreenListener(new SKPlaybackControlView.OnFullScreenListener() {
+            @Override
+            public void onFullScreen() {
+                if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+            }
+        });
     }
 
     @Override

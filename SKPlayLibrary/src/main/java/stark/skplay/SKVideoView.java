@@ -52,6 +52,10 @@ public class SKVideoView extends RelativeLayout {
 
     }
 
+    public void setOnFullScreenListener(SKPlaybackControlView.OnFullScreenListener onFullScreenListener) {
+        controlView.setOnFullScreenListener(onFullScreenListener);
+    }
+
     public void setVideoURI(@Nullable Uri uri) {
         videoUri = uri;
         textureVideoView.setVideoURI(uri);
