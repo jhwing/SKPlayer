@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -34,11 +34,11 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
     protected VideoSpeedView videoSpeedView;
     protected View shadeView;
     protected View playPauseImg;
-    protected Button previous;
-    protected Button next;
-    protected Button playPause;
-    protected Button stop;
-    protected Button fullScreen;
+    protected ImageButton previous;
+    protected ImageButton next;
+    protected ImageButton playPause;
+    protected ImageButton stop;
+    protected ImageButton fullScreen;
     protected SeekBar seekBar;
     protected TextView currentTime;
     protected TextView endTime;
@@ -72,11 +72,11 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
         videoSpeedView = (VideoSpeedView) findViewById(R.id.videoSpeedView);
         shadeView = findViewById(R.id.shadeView);
         playPauseImg = findViewById(R.id.playPauseImg);
-        previous = (Button) findViewById(R.id.previous);
-        next = (Button) findViewById(R.id.next);
-        playPause = (Button) findViewById(R.id.playPause);
-        stop = (Button) findViewById(R.id.stop);
-        fullScreen = (Button) findViewById(R.id.fullScreen);
+        previous = (ImageButton) findViewById(R.id.previous);
+        next = (ImageButton) findViewById(R.id.next);
+        playPause = (ImageButton) findViewById(R.id.playPause);
+        stop = (ImageButton) findViewById(R.id.stop);
+        fullScreen = (ImageButton) findViewById(R.id.fullScreen);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         currentTime = (TextView) findViewById(R.id.currentTime);
         endTime = (TextView) findViewById(R.id.remainingTime);
@@ -258,10 +258,10 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
 
     public void updatePlayPauseImage(boolean isPlaying) {
         if (isPlaying) {
-            playPause.setText("pause");
+            //playPause.setText("pause");
             playPauseImg.setVisibility(GONE);
         } else {
-            playPause.setText("play");
+            //playPause.setText("play");
             playPauseImg.setVisibility(VISIBLE);
         }
     }

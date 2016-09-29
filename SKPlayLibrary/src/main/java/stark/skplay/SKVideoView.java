@@ -23,7 +23,8 @@ public class SKVideoView extends RelativeLayout {
 
     protected Uri videoUri;
 
-    protected MuxListener muxListener = new MuxListener();
+    protected MuxListener internalMuxListener = new MuxListener();
+    protected SKListenerMux muxListener;
 
     public SKVideoView(Context context) {
         super(context);
@@ -48,8 +49,11 @@ public class SKVideoView extends RelativeLayout {
         textureVideoView = (SKTextureVideoView) findViewById(R.id.textureVideoView);
         controlView = (SKPlaybackControl) findViewById(R.id.control);
         setPlaybackControlView(controlView);
-        textureVideoView.setSKListenerMux(muxListener);
+        textureVideoView.setSKListenerMux(internalMuxListener);
+    }
 
+    public void setMuxListener(SKListenerMux muxListener) {
+        this.muxListener = muxListener;
     }
 
     public void setOnFullScreenListener(SKPlaybackControlView.OnFullScreenListener onFullScreenListener) {
@@ -68,6 +72,22 @@ public class SKVideoView extends RelativeLayout {
         if (controlView != null) {
             controlView.updatePlaybackState(true);
         }
+    }
+
+    public void pause() {
+        textureVideoView.pause();
+    }
+
+    public boolean isPlaying() {
+        return textureVideoView.isPlaying();
+    }
+
+    public void stopPlayback() {
+        textureVideoView.suspend();
+    }
+
+    public void suspend() {
+        textureVideoView.suspend();
     }
 
     private int oldHeight = 0;
@@ -98,21 +118,28 @@ public class SKVideoView extends RelativeLayout {
         controlView.setVideoView(textureVideoView);
     }
 
-    protected class MuxListener implements SKListenerMux {
+    public class MuxListener implements SKListenerMux {
 
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            Log.d("jihongwen", "onBufferingUpdate percent" + percent);
+            //Log.d("jihongwen", "onBufferingUpdate percent" + percent);
+            if (muxListener != null) {
+                muxListener.onBufferingUpdate(mp, percent);
+            }
         }
 
         @Override
         public void onCompletion(MediaPlayer mp) {
             controlView.updatePlaybackState(false);
+            if (muxListener != null)
+                muxListener.onCompletion(mp);
         }
 
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
             controlView.updatePlaybackState(false);
+            if (muxListener != null)
+                muxListener.onError(mp, what, extra);
             return false;
         }
 
@@ -120,15 +147,20 @@ public class SKVideoView extends RelativeLayout {
         public void onPrepared(MediaPlayer mp) {
             controlView.showLoading(false);
             controlView.setDuration(mp.getDuration());
+            if (muxListener != null)
+                muxListener.onPrepared(mp);
         }
 
         @Override
         public void onSeekComplete(MediaPlayer mp) {
-
+            if (muxListener != null)
+                muxListener.onSeekComplete(mp);
         }
 
         @Override
         public boolean onInfo(MediaPlayer mp, int what, int extra) {
+            if (muxListener != null)
+                muxListener.onInfo(mp, what, extra);
             return false;
         }
     }

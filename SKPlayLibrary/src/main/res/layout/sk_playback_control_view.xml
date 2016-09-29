@@ -11,8 +11,8 @@
         android:layout_alignParentBottom="true"
         android:background="#99111111"
         android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,12 +50,12 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,33 +63,41 @@
                 android:visibility="gone" />
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/playPause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:src="@drawable/sk_video_play_btn"
                 android:text="play" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="next"
                 android:visibility="gone" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="stop" />
+                android:text="stop"
+                android:visibility="gone" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/fullScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:src="@drawable/sk_video_play_full"
                 android:text="fullScreen" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout

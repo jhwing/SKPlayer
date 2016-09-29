@@ -93,13 +93,17 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
     }
 
     protected void setup(Context context, @Nullable AttributeSet attrs) {
-        initMediaPlayer();
-        setSurfaceTextureListener(new TextureVideoViewSurfaceListener());
 
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();
 
+        //initMediaView();
+    }
+
+    private void initMediaView() {
+        initMediaPlayer();
+        setSurfaceTextureListener(new TextureVideoViewSurfaceListener());
         updateVideoSize(0, 0);
         currentState = State.IDLE;
     }
@@ -259,7 +263,7 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
             mediaPlayer.prepareAsync();
 
             currentState = State.PREPARING;
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalStateException | IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             currentState = State.ERROR;
 
@@ -294,8 +298,8 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
         playRequested = false;
 
         openVideo(uri);
-        requestLayout();
-        invalidate();
+        //requestLayout();
+        //invalidate();
     }
 
     /**
@@ -366,7 +370,9 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
         }
 
         currentBufferPercent = 0;
-
+        initMediaView();
+        requestLayout();
+        invalidate();
         try {
             mediaPlayer.setDataSource(getContext().getApplicationContext(), uri, headers);
             mediaPlayer.prepareAsync();
@@ -450,9 +456,13 @@ public class SKTextureVideoView extends ResizingTextureView implements VideoView
     protected class TextureVideoViewSurfaceListener implements SurfaceTextureListener {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-            mediaPlayer.setSurface(new Surface(surfaceTexture));
-            if (playRequested) {
-                start();
+            try {
+                mediaPlayer.setSurface(new Surface(surfaceTexture));
+                if (playRequested) {
+                    start();
+                }
+            } catch (IllegalStateException e) {
+                Log.d(TAG, "mediaPlayer IllegalStateException ");
             }
         }
 
