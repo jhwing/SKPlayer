@@ -293,7 +293,8 @@ public class SKPlaybackControlView extends RelativeLayout implements SKPlaybackC
                     isVerticalScroll = false;
                     videoSpeedView.setVisibility(GONE);
             }
-            return gestureDetector.onTouchEvent(event);
+            gestureDetector.onTouchEvent(event);
+            return false;
         }
 
         @Override

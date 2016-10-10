@@ -2,9 +2,10 @@ package stark.skplayer.demo.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import stark.skplayer.demo.R;
 import stark.skplayer.demo.ViewUtils;
 
 /**
@@ -19,6 +21,8 @@ import stark.skplayer.demo.ViewUtils;
  */
 
 public class FloatVideoLayout extends RelativeLayout {
+
+    RecyclerView videoList;
 
     boolean isFullScreen = false;
 
@@ -42,15 +46,27 @@ public class FloatVideoLayout extends RelativeLayout {
     }
 
     public void init() {
+        videoList = (RecyclerView) findViewById(R.id.recyclerList);
+
         frameLayout = new FrameLayout(getContext());
+
         frameLayout.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return true;
+                Log.d("jihongwen", "frameLayout onTouch");
+                return false;
             }
         });
-        //frameLayout.setBackgroundColor(Color.GREEN);
         addView(frameLayout);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (videoList != null) {
+            videoList.onInterceptTouchEvent(ev);
+            Log.d("jihongwen", "videoList  onInterceptTouchEvent");
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     public void setFullScreen(boolean fullScreen) {
@@ -71,17 +87,38 @@ public class FloatVideoLayout extends RelativeLayout {
         frameLayout.addView(videoView, layoutParams);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
-    }
-
     public void updateVideoViewLocation(View targetView) {
         if (targetView == null || isFullScreen) {
             return;
         }
         int[] location = new int[2];
         targetView.getLocationOnScreen(location);
+        Rect rect = new Rect();
+        //targetView.getLocalVisibleRect(rect);
+        targetView.getGlobalVisibleRect(rect);
+        Log.d("jihongwen", "rect.left=" + rect.left
+                + "  rect.top=" + rect.top
+                + "  rect.right=" + rect.right
+                + "  rect.bottom=" + rect.bottom
+        );
+//
+//        int statusBarHeight = ViewUtils.getStatusBarHeight(targetView.getContext());
+//        int left = rect.left;
+//        int top = rect.top - statusBarHeight;
+//        int right = rect.right;
+//        int bottom = rect.bottom - statusBarHeight;
+//        if (rect.top <= 0) {
+//            top = frameLayout.getHeight() - rect.bottom;
+//        }
+//        if (rect.bottom <= 0) {
+//            bottom = rect.top + frameLayout.getHeight();
+//        }
+//        Log.d("jihongwen", "left=" + left
+//                + "  top=" + top
+//                + "  right=" + right
+//                + "  bottom=" + bottom
+//        );
+//        frameLayout.layout(left, top, right, bottom);
         LayoutParams layoutParams = (LayoutParams) frameLayout.getLayoutParams();
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int statusBarHeight = ViewUtils.getStatusBarHeight(targetView.getContext());
@@ -98,5 +135,4 @@ public class FloatVideoLayout extends RelativeLayout {
         );
         frameLayout.setLayoutParams(layoutParams);
     }
-
 }

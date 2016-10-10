@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -62,6 +63,18 @@ public class MyVideoView extends RelativeLayout implements SKListenerMux {
         View.inflate(context, R.layout.view_my_video_view, this);
         videoPreView = (ImageView) findViewById(R.id.videoPreView);
         playBtn = (ImageView) findViewById(R.id.playBtn);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        Log.d("jihongwen", " MyVideoView onInterceptTouchEvent");
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d("jihongwen", " MyVideoView onTouchEvent");
+        return super.onTouchEvent(event);
     }
 
     public void setSkVideoView(SKVideoView skVideoView) {
