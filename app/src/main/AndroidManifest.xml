@@ -36,6 +36,12 @@
 
         <activity android:name=".ExoMediaActivity" />
 
+        <activity android:name=".SKSurfaceVideoViewActivity" />
+
+        <activity
+            android:name=".SKFloatVideoListActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize" />
+
     </application>
 
 </manifest>

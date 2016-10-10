@@ -10,10 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <stark.skplayer.demo.widget.MyVideoView
-        android:id="@+id/videoView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp" />
+        android:layout_height="wrap_content">
+
+        <stark.skplayer.demo.widget.MyVideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="260dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:background="#99aaaaaa" />
+
+    </RelativeLayout>
+
 
     <!--<VideoView-->
     <!--android:id="@+id/videoView"-->

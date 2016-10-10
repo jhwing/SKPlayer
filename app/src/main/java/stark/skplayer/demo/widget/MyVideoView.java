@@ -125,6 +125,9 @@ public class MyVideoView extends RelativeLayout implements SKListenerMux {
     public void remove() {
         isPlaying = false;
         if (skVideoView != null) {
+            if (skVideoView.isPlaying()) {
+
+            }
             skVideoView.suspend();
             removeView(skVideoView);
         }

@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         activities.add(VideoViewActivity.class);
         activities.add(ExoMediaActivity.class);
         activities.add(SKVideoViewListActivity.class);
+        activities.add(SKSurfaceVideoViewActivity.class);
+        activities.add(SKFloatVideoListActivity.class);
 //        activities.add(WebVideoActivity.class);
 //        activities.add(WebVideoListActivity.class);
 
